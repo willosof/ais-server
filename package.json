@@ -1,0 +1,16 @@
+{
+  "name": "ais-rescue",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "William Viker <william.viker@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "aisparser": "0.0.13",
+    "readline": "^1.3.0",
+    "split": "^1.0.1"
+  }
+}
