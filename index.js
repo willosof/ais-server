@@ -38,7 +38,7 @@ net.createServer(function (socket) {
   socket.name = socket.remoteAddress + ":" + socket.remotePort
   clients.push(socket);
 
-	serverdebug(socket.name + " connected");
+  serverdebug(socket.name + " connected");
 
   socket.on('data', function (data) {
     serverdebug(socket.name + "> " + data);
@@ -52,53 +52,53 @@ net.createServer(function (socket) {
 }).listen(5000);
 
 var valid_packet = function(payload) {
-	var output_format = payload.mmsi + ":" + payload.latitude + "," + payload.longitude;
-	console.log(output_format);
-	broadcast(output_format+"\n")
+  var output_format = payload.mmsi + ":" + payload.latitude + "," + payload.longitude;
+  console.log(output_format);
+  broadcast(output_format+"\n")
 };
 
 var parse = function(sentence) {
 
   var result = parser.parse(sentence);
 
-	var info = {};
-	var match = 0;
+  var info = {};
+  var match = 0;
 
   if (result.valid == 'VALID') {
 
     try {
       var suppValues = result.supportedValues;
       for(field in suppValues) {
-				if (field == 'mmsi' || field == 'latitude' || field == 'longitude') {
-					info[field] = result[field];
-					match++;
-				}
+        if (field == 'mmsi' || field == 'latitude' || field == 'longitude') {
+          info[field] = result[field];
+          match++;
+        }
       }
     } catch(error) {
         debug('parsing failed for' + sentence + ' error:' + error);
     }
 
-		if (match == 3) {
-			valid_packet(info);
-		}
+    if (match == 3) {
+      valid_packet(info);
+    }
 
   }
 
-	else if (result.valid == 'UNSUPPORTED') {
+  else if (result.valid == 'UNSUPPORTED') {
     debug('unsupported message: ' + sentence, result.errMsg);
-	}
+  }
 
   else if (result.valid == 'INVALID') {
     debug('invalid message: ' + sentence, result.errMsg);
   }
 
-	else if (result.valid == 'INCOMPLETE') {
+  else if (result.valid == 'INCOMPLETE') {
     debug('incomplete message, waiting for more');
   }
 
-	else {
-		debug('Well, this is unexpected?')
-	}
+  else {
+    debug('Well, this is unexpected?')
+  }
 
 };
 
